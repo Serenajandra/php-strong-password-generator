@@ -12,6 +12,32 @@ session_start();
 
 $psw_length = $_GET["psw_length"] ?? "";
 var_dump($psw_length);
+
+//creo la stringa che farà da contenitore dei possibili elementi della password;
+$psw_basket = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+
+//Creo l'array vuoto che conterrà gli elementi pescati casualmente;
+// $your_password = array();
+$your_password = [];
+
+//Estraggo la lunghezza del mio psw_basket
+//$strlen(psw_basket) => array length
+$psw_basket_length = strlen($psw_basket) - 1;
+
+function create_password($psw_length, $psw_basket_length, $psw_basket)
+{
+    //creo un ciclo per scorrere gli elementi di psw_basket;
+    for ($i = 0; $i <= ($psw_length) - 1; $i++) {
+        //Scelgo gli elemnti casuali con la funzione rand();
+        $n = rand(0, $psw_basket_length);
+
+        //Aggiungo gli elementi pescati nel mio array $your_password;
+        $your_password[] = $psw_basket[$n];
+    }
+    //Converto l'array $your_password in stringa
+    print(implode($your_password));
+    // var_dump($your_password);
+};
 ?>
 
 <!DOCTYPE html>
@@ -35,12 +61,19 @@ var_dump($psw_length);
 
         <form class="bg-primary text-center" action="index.php" method="GET">
             <label class="text-light mx-4" for="psw_length">Numero di caratteri della password:</label>
-            <input type="text" name="psw_length" id="psw_length">
+            <input type="number" name="psw_length" id="psw_length">
             <div class=" btn bntn-primary">
-                <button type="submit">conferma</button>
+                <button type="submit" value="create_password">conferma</button>
             </div>
         </form>
 
+        <div>
+            <p class="text-light">La tua password é:
+                <?php
+                create_password($psw_length, $psw_basket_length, $psw_basket);
+                ?>
+            </p>
+        </div>
     </main>
 
 </body>
